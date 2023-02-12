@@ -1,0 +1,23 @@
+{
+  "dependencies": {
+    "apollo-server": "^2.25.2"
+  },
+  "name": "instaclone_backend",
+  "version": "1.0.0",
+  
+  "devDependencies": {},
+  "scripts": {
+    "dev": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/jihunddok/instaclone-backend.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/jihunddok/instaclone-backend/issues"
+  },
+  "homepage": "https://github.com/jihunddok/instaclone-backend#readme"
+}
