@@ -10,6 +10,5 @@ const loadedResolvers = loadFilesSync(
 const typeDefs = mergeTypeDefs(loadedTypes);
 const resolvers = mergeResolvers(loadedResolvers);
 const schema = makeExecutableSchema({ typeDefs, resolvers });
-console.log(loadedTypes);
 
 export default schema;
