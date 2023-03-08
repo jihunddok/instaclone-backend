@@ -3,8 +3,8 @@
 -------
 ## User todo.
 
-- [ ] Create Account
-- [ ] See Profile
+- [✓] Create Account
+- [✓] See Profile
 - [ ] Login
 - [ ] Edit Profile
 - [ ] Follow User
