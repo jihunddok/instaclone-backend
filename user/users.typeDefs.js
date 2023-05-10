@@ -5,7 +5,7 @@ export default gql`
     id: String!
     firstName: String!
     lastName: String
-    username: String!
+    userName: String!
     email: String!
     createdAt: String!
     updatedAt: String!

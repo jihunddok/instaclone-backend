@@ -4,6 +4,11 @@ import schema from "./schema";
 
 const server = new ApolloServer({
   schema,
+  context:{
+    authorization:
+    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNjgzNzIzNTI3fQ.1Xpj4n2MIakqAr9L2K78yPbmhsXeGYS5pSw9OMPCEBQ"
+      
+  }
 });
 
 const PORT = process.env.PORT;

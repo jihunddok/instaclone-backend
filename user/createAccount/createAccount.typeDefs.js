@@ -9,7 +9,7 @@ export default gql`
     createAccount(
       firstName: String!
       lastName: String
-      username: String!
+      userName: String!
       email: String!
       password: String!
     ): CreateAccountResult!

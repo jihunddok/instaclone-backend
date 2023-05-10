@@ -1,12 +1,16 @@
 import bcrypt from "bcrypt";
 import client from "../../client";
+import jwt from "jsonwebtoken";
 
 export default {
   Mutation: {
     editProfile: async (
       _,
-      { firstName, lastName, username, email, password: newPassword }
+      { firstName, lastName, userName, email, password: newPassword},
+      {authorization}
     ) => {
+      const {id} = await jwt.verify(authorization, process.env.PRIVATE_KEY);
+      console.log("id token : ",authorization);
       let uglyPassword = null; 
       // new password that hashed. 
       if (newPassword) { //if user input new password,
@@ -16,13 +20,13 @@ export default {
       }
       const updatedUser = await client.user.update({
         where: {
-          id: 1,
+          id,
           //need check user token. now is for test user id 1.
         },
         data: {
           firstName,
           lastName,
-          username,
+          userName,
           email,
           ...(uglyPassword && { password: uglyPassword }),
           // this is es6 expression, this mean ,if uglyPassword is true, return put uglyPassword in to password.

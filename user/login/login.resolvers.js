@@ -4,8 +4,8 @@ import client from "../../client";
 
 export default {
   Mutation: {
-    login: async (_, { username, password }) => {
-      const user = await client.user.findFirst({ where: { username } });
+    login: async (_, { userName, password }) => {
+      const user = await client.user.findFirst({ where: { userName } });
       if (!user) {
         return {
           ok: false,
@@ -19,7 +19,7 @@ export default {
           error: "Incorrect password.",
         };
       }
-      const token = await jwt.sign({ id: user.id }, process.env.SECRET_KEY);
+      const token = await jwt.sign({ id: user.id }, process.env.PRIVATE_KEY);
       return {
         ok: true,
         token,
