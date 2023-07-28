@@ -1,17 +1,31 @@
 require("dotenv").config();
 import { ApolloServer } from "apollo-server";
 import schema from "./schema";
-
-const server = new ApolloServer({
-  schema,
-  context:{
-    authorization:
-    "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNjgzNzIzNTI3fQ.1Xpj4n2MIakqAr9L2K78yPbmhsXeGYS5pSw9OMPCEBQ"
-      
-  }
-});
+import { getIntrospectionQuery } from "graphql";
+import {getUser,protectResolver} from "./user/user.utils";
 
 const PORT = process.env.PORT;
+const server = new ApolloServer({
+  schema,
+
+//   context:({req})=>{
+//     console.log(req.headers);
+//     return{
+//       token:"eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpZCI6NCwiaWF0IjoxNjgzNzIzNTI3fQ.1Xpj4n2MIakqAr9L2K78yPbmhsXeGYS5pSw9OMPCEBQ"
+//   }
+// }
+  context: async({req}) => {
+    
+    console.log("req token : ", req.headers.token);   
+    return{
+      loggedInUser : await getUser(req.headers.token),
+      protectResolver
+    };
+    
+  },
+});
+
+
 server
   .listen(PORT)
   .then(() =>
