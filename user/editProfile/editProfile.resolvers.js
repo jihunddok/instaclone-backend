@@ -1,15 +1,16 @@
 import bcrypt from "bcrypt";
 import client from "../../client";
 import { protectedResolver } from "../user.utils";
+import { GraphQLUpload } from "graphql-upload";
 
 const resolverFn = 
 async (
   _,
-  { firstName, lastName, userName, email, password: newPassword},
-  {loggedInUser,protectResolver}
+  { firstName, lastName, userName, email, password: newPassword , bio},
+  {loggedInUser,}
 ) => {
   
-  console.log("user : ", loggedInUser);
+  // console.log("user : ", loggedInUser);
   let uglyPassword = null; 
   // new password that hashed. 
   if (newPassword) { //if user input new password,
@@ -27,6 +28,8 @@ async (
       lastName,
       userName,
       email,
+      bio,
+      //avatar,
       ...(uglyPassword && { password: uglyPassword }),
       // this is es6 expression, this mean ,if uglyPassword is true, return put uglyPassword in to password.
     },
@@ -43,6 +46,7 @@ async (
   }
 };
 export default {
+  Upload :GraphQLUpload,
   Mutation: {
     editProfile: protectedResolver(resolverFn),
   },

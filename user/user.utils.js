@@ -8,7 +8,7 @@ export const getUser = async (token) => {
     }
     const { id } = await jwt.verify(token, process.env.PRIVATE_KEY);
     const user = await client.user.findUnique({ where: { id } });
-    console.log("getuser token : ", { token });
+    // console.log("getuser token : ", { token });
     if (user) {
       return user;
     } else {
@@ -39,6 +39,7 @@ export const getUser = async (token) => {
 //     }
 //   };
 
+// 단순히 지금 단계는 백엔드 비즈니스 로직이랑 graphql, javascript, apollo webserver, prisma, json webtoken.
 export function protectedResolver(ourResolver){
     return function(root,args,context,info){
         if (!context.loggedInUser) {
