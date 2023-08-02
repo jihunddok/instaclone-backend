@@ -1,40 +1,44 @@
+import { createWriteStream } from "fs";
 import bcrypt from "bcrypt";
 import client from "../../client";
 import { protectedResolver } from "../user.utils";
-import { GraphQLUpload } from "graphql-upload";
 
-const resolverFn = 
-async (
+const resolverFn = async (
   _,
-  { firstName, lastName, userName, email, password: newPassword , bio},
-  {loggedInUser,}
+  { firstName, lastName, username, email, password: newPassword, bio, avatar },
+  { loggedInUser }
 ) => {
-  
-  // console.log("user : ", loggedInUser);
-  let uglyPassword = null; 
-  // new password that hashed. 
-  if (newPassword) { //if user input new password,
-    uglyPassword = await bcrypt.hash(newPassword, 10);
-    //this work have to be run by asyncronizationally.
-    //hasing new password to uglypassword.
+  let avatarUrl = null;
+  if (avatar) {
+    const { filename, createReadStream } = await avatar;
+    const newFilename = `${loggedInUser.id}-${Date.now()}-${filename}`;
+    const readStream = createReadStream();
+    const writeStream = createWriteStream(
+      process.cwd() + "/uploads/" + newFilename
+    );
+    readStream.pipe(writeStream);
+    avatarUrl = `http://localhost:4000/static/${newFilename}`;
   }
-  const updateUser = await client.user.update({
+
+  let uglyPassword = null;
+  if (newPassword) {
+    uglyPassword = await bcrypt.hash(newPassword, 10);
+  }
+  const updatedUser = await client.user.update({
     where: {
-      id : loggedInUser.id,
-      //need check user token. now is for test user id 1.
+      id: loggedInUser.id,
     },
     data: {
       firstName,
       lastName,
-      userName,
+      username,
       email,
       bio,
-      //avatar,
       ...(uglyPassword && { password: uglyPassword }),
-      // this is es6 expression, this mean ,if uglyPassword is true, return put uglyPassword in to password.
+      ...(avatar && {avatar : avatarUrl }), 
     },
   });
-  if (updateUser.id) {
+  if (updatedUser.id) {
     return {
       ok: true,
     };
@@ -45,8 +49,8 @@ async (
     };
   }
 };
+
 export default {
-  Upload :GraphQLUpload,
   Mutation: {
     editProfile: protectedResolver(resolverFn),
   },

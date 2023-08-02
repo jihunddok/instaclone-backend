@@ -1,22 +1,25 @@
 {
   "dependencies": {
+    "15": "0.0.0",
     "@graphql-tools/load-files": "^6.6.1",
     "@graphql-tools/merge": "^8.3.18",
     "@graphql-tools/schema": "^9.0.16",
     "@prisma/client": "^4.10.1",
-    "apollo-server": "^3.12.0",
-    "apollo-server-express": "^3.12.0",
+    "apollo-server": "^2.25.2",
+    "apollo-server-express": "^2.19.2",
     "bcrypt": "^5.1.0",
     "dotenv": "^16.0.3",
     "express": "^4.18.2",
+    "graphql": "^15.4.0",
     "graphql-tools": "^8.3.18",
-    "graphql-upload": "^16.0.2",
     "jsonwebtoken": "^9.0.0",
+    "morgan": "^1.10.0",
     "nvm": "^0.0.4"
   },
   "name": "instaclone_backend",
   "version": "1.0.0",
   "scripts": {
+    "preinstall": "npx npm-force-resolutions",
     "dev": "nodemon --exec babel-node server",
     "migrate": "npx prisma migrate dev --preview-feature"
   },
@@ -37,5 +40,9 @@
     "@babel/preset-env": "^7.20.2",
     "nodemon": "^3.0.1",
     "prisma": "^4.10.1"
+  },
+  "resolutions": {
+    "fs-capacitor": "^6.2.0",
+    "graphql-upload": "^11.0.0"
   }
 }
