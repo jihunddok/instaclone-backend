@@ -19,6 +19,8 @@ model User{
   password String
   bio String?
   avatar String? //store in harddisk by url
+  followers User[] @relation("FollowRelationship")
+  followings User[] @relation("FollowRelationship")
   createdAt DateTime @default(now())
   updatedAt DateTime @updatedAt()
 }
